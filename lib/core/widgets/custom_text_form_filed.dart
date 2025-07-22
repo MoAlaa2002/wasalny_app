@@ -9,14 +9,17 @@ class CustomTextFormFiled extends StatelessWidget {
     this.vaildate,
     required this.label,
     required this.icon,
+    this.controller,
   });
   bool? isHidden;
   final String? Function(String?)? vaildate;
   final String label;
   final Widget icon;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       obscureText: isHidden!,
       validator: vaildate,
       decoration: InputDecoration(
