@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasalny_app/core/constants/colors.dart';
 import 'package:wasalny_app/core/constants/fonts.dart';
+import 'package:wasalny_app/core/functions/snak_bar.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
 import 'package:wasalny_app/core/widgets/custom_button.dart';
 import 'package:wasalny_app/core/widgets/custom_text_form_filed.dart';
@@ -24,11 +25,10 @@ class RegisterBody extends StatelessWidget {
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is LoadedRegisterSate) {
+              snackBar(msg: "Created Account Successfully.", context: context);
               context.goNamed(RoutesName.loginScreen);
             } else if (state is FailureRegisterSate) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.errormsg)));
+              snackBar(msg: state.errormsg, context: context);
             }
           },
           builder: (context, state) {
@@ -143,8 +143,13 @@ class RegisterBody extends StatelessWidget {
                     ),
                     child: CustomTermsAndConditions(),
                   ),
-                  read.isLoading == false
-                      ? CustomButton(
+                  state is LoadingRegisterSate
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.grey,
+                          ),
+                        )
+                      : CustomButton(
                           onTap: () {
                             if (read.value == true) {
                               read.registervalidate();
@@ -161,11 +166,6 @@ class RegisterBody extends StatelessWidget {
                             end: Alignment.bottomRight,
                           ),
                           text: "Sign Up",
-                        )
-                      : Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.grey,
-                          ),
                         ),
                   SizedBox(height: 10.h),
                 ],

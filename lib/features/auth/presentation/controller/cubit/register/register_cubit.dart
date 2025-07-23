@@ -7,7 +7,7 @@ import 'package:wasalny_app/features/auth/presentation/controller/cubit/register
 class RegisterCubit extends Cubit<RegisterState> {
   final RegisterRepoImple registerRepoImple;
   RegisterCubit({required this.registerRepoImple})
-    : super(LoadingRegisterSate());
+    : super(InitialRegisterSate());
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
   final TextEditingController conformPassword = TextEditingController();
