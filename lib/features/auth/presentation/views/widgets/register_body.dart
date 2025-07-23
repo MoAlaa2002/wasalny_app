@@ -9,7 +9,7 @@ import 'package:wasalny_app/core/widgets/custom_button.dart';
 import 'package:wasalny_app/core/widgets/custom_text_form_filed.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_cubit.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_state.dart';
-import 'package:wasalny_app/features/auth/presentation/views/widgets/app_bar_register.dart';
+import 'package:wasalny_app/features/auth/presentation/views/widgets/custom_app_bar.dart';
 import 'package:wasalny_app/features/auth/presentation/views/widgets/custom_terms_and_conditions.dart';
 import 'package:wasalny_app/features/auth/presentation/views/widgets/show_password_icon.dart';
 
@@ -36,7 +36,12 @@ class RegisterBody extends StatelessWidget {
               key: read.keyRegister,
               child: Column(
                 children: [
-                  AppBarRegister(),
+                  CustomAppBar(
+                    header: 'Register',
+                    title: 'Already have an account?',
+                    subTitle: 'Login',
+                    onTap: () => context.goNamed(RoutesName.loginScreen),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                       right: 270.w,
