@@ -10,6 +10,8 @@ import 'package:wasalny_app/core/widgets/custom_text_form_filed.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_cubit.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_state.dart';
 import 'package:wasalny_app/features/auth/presentation/views/widgets/app_bar_register.dart';
+import 'package:wasalny_app/features/auth/presentation/views/widgets/custom_terms_and_conditions.dart';
+import 'package:wasalny_app/features/auth/presentation/views/widgets/show_password_icon.dart';
 
 class RegisterBody extends StatelessWidget {
   const RegisterBody({super.key});
@@ -100,8 +102,8 @@ class RegisterBody extends StatelessWidget {
                       controller: read.password,
 
                       label: "Password",
-                      icon: Icon(Icons.remove_red_eye),
-                      isHidden: false,
+                      icon: ShowPasswordIcon(),
+                      isHidden: !read.isShowPass,
                     ),
                   ),
                   Padding(
@@ -124,8 +126,8 @@ class RegisterBody extends StatelessWidget {
                       controller: read.conformPassword,
 
                       label: "Confirm Password",
-                      icon: Icon(Icons.remove_red_eye),
-                      isHidden: false,
+                      icon: ShowPasswordIcon(),
+                      isHidden: !read.isShowPass,
                     ),
                   ),
                   Padding(
@@ -134,33 +136,32 @@ class RegisterBody extends StatelessWidget {
                       left: 10.w,
                       bottom: 30.h,
                     ),
-                    child: Row(
-                      children: [
-                        Checkbox(value: false, onChanged: (value) {}),
-                        Text(
-                          "I have agree to our Terms and Condition",
-                          style: AppFont.text12.copyWith(
-                            color: AppColors.grey500,
-                            fontWeight: FontWeight.bold,
+                    child: CustomTermsAndConditions(),
+                  ),
+                  read.isLoading == false
+                      ? CustomButton(
+                          onTap: () {
+                            if (read.value == true) {
+                              read.registervalidate();
+                              read.confirmPass();
+                            }
+                          },
+                          height: 56.h,
+                          width: 343.w,
+                          gradient: LinearGradient(
+                            colors: read.value == false
+                                ? [AppColors.grey, Colors.white]
+                                : [AppColors.black, AppColors.babyblue],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          text: "Sign Up",
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.grey,
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  CustomButton(
-                    onTap: () {
-                      read.registervalidate();
-                      read.confirmPass();
-                    },
-                    height: 56.h,
-                    width: 343.w,
-                    gradient: LinearGradient(
-                      colors: [AppColors.black, AppColors.babyblue],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    text: "Sign Up",
-                  ),
                   SizedBox(height: 10.h),
                 ],
               ),

@@ -11,3 +11,15 @@ class FailureRegisterSate extends RegisterState {
 
   FailureRegisterSate({required this.errormsg});
 }
+
+class TermsAndConditionChangesState extends RegisterState {
+  final bool value;
+
+  TermsAndConditionChangesState({required this.value});
+}
+
+class ShowPassState extends RegisterState {
+  final bool value;
+
+  ShowPassState({required this.value});
+}

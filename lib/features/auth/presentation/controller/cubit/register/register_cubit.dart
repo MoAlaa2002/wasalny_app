@@ -12,23 +12,31 @@ class RegisterCubit extends Cubit<RegisterState> {
   final TextEditingController password = TextEditingController();
   final TextEditingController conformPassword = TextEditingController();
   String? confirmPasswordError;
-
+  bool value = false;
+  bool isLoading = false;
+  bool isShowPass = false;
   final GlobalKey<FormState> keyRegister = GlobalKey();
 
-  signInWithEmailAndPass() {
+  signInWithEmailAndPass() async {
     try {
       emit(LoadingRegisterSate());
-      registerRepoImple.signUpWiteEmailAndPassword(
+      isLoading = true;
+      await registerRepoImple.signUpWiteEmailAndPassword(
         email: email.text,
         password: password.text,
       );
       emit(LoadedRegisterSate());
+      isLoading = false;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
+        isLoading = false;
+
         emit(
           FailureRegisterSate(errormsg: 'The password provided is too weak.'),
         );
       } else if (e.code == 'email-already-in-use') {
+        isLoading = false;
+
         emit(
           FailureRegisterSate(
             errormsg: 'The account already exists for that email.',
@@ -36,6 +44,8 @@ class RegisterCubit extends Cubit<RegisterState> {
         );
       }
     } catch (e) {
+      isLoading = false;
+
       emit(FailureRegisterSate(errormsg: e.toString()));
     }
   }
@@ -59,5 +69,15 @@ class RegisterCubit extends Cubit<RegisterState> {
       confirmPasswordError = null;
       return true;
     }
+  }
+
+  updateTermsAndconditions(newvalue) {
+    value = newvalue;
+    emit(TermsAndConditionChangesState(value: newvalue));
+  }
+
+  showPassword() {
+    isShowPass = !isShowPass;
+    emit(ShowPassState(value: isShowPass));
   }
 }

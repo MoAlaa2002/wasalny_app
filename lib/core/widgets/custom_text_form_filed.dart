@@ -6,13 +6,11 @@ class CustomTextFormFiled extends StatelessWidget {
   CustomTextFormFiled({
     super.key,
     this.isHidden,
-    this.vaildate,
     required this.label,
     required this.icon,
     this.controller,
   });
   bool? isHidden;
-  final String? Function(String?)? vaildate;
   final String label;
   final Widget icon;
   final TextEditingController? controller;
@@ -21,7 +19,13 @@ class CustomTextFormFiled extends StatelessWidget {
     return TextFormField(
       controller: controller,
       obscureText: isHidden!,
-      validator: vaildate,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "This Filed Is Reqiured";
+        } else {
+          return null;
+        }
+      },
       decoration: InputDecoration(
         suffixIcon: icon,
         suffixIconColor: AppColors.grey500,
