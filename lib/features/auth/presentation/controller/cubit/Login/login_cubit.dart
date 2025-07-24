@@ -26,6 +26,10 @@ class LoginCubit extends Cubit<LoginState> {
         emit(
           FailureLoginState(errormsg: 'Wrong password provided for that user.'),
         );
+      } else if (e.code == 'invalid-email') {
+        emit(FailureLoginState(errormsg: 'This Email is Invalid'));
+      } else {
+        emit(FailureLoginState(errormsg: e.code));
       }
     } catch (e) {
       emit(FailureLoginState(errormsg: e.toString()));

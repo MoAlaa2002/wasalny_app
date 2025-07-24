@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasalny_app/core/constants/colors.dart';
 import 'package:wasalny_app/core/constants/fonts.dart';
+import 'package:wasalny_app/core/functions/check_email_verification.dart';
 import 'package:wasalny_app/core/functions/snak_bar.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
 import 'package:wasalny_app/core/widgets/custom_button.dart';
@@ -22,10 +23,26 @@ class LoginBody extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: BlocConsumer<LoginCubit, LoginState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state is LoadedLoginState) {
-              snackBar(msg: "Welcome Back.", context: context);
-              context.goNamed(RoutesName.homeScreen);
+              //   if (FirebaseAuth.instance.currentUser!.emailVerified == true) {
+              //     context.goNamed(RoutesName.homeScreen);
+              //     snackBar(msg: "Welcome Back.", context: context);
+              //   } else {
+              //     snackBar(msg: "Please Verified Your Email", context: context);
+              //   }
+              // } else if (state is FailureLoginState) {
+              //   snackBar(msg: state.errormsg, context: context);
+              bool isVerified = await checkEmailVerification(context);
+
+              if (isVerified) {
+                snackBar(msg: "Welcome Back.", context: context);
+                Future.microtask(() {
+                  context.goNamed(RoutesName.homeScreen);
+                });
+              } else {
+                snackBar(msg: "Please verify your email.", context: context);
+              }
             } else if (state is FailureLoginState) {
               snackBar(msg: state.errormsg, context: context);
             }

@@ -20,15 +20,44 @@ class _SpalshScreenState extends State<SpalshScreen> {
     splas();
   }
 
-  splas() {
-    Future.delayed(Duration(seconds: 5), () {
-      if (FirebaseAuth.instance.currentUser != null) {
+  void splas() async {
+    await Future.delayed(const Duration(seconds: 2));
+
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user != null) {
+      await user.reload();
+      user = FirebaseAuth.instance.currentUser;
+
+      if (user!.emailVerified) {
         context.goNamed(RoutesName.homeScreen);
       } else {
         context.goNamed(RoutesName.loginScreen);
       }
-    });
+    } else {
+      context.goNamed(RoutesName.loginScreen);
+    }
   }
+
+  // splas() {
+  //   Future.delayed(Duration(seconds: 5), () async {
+  //     // FirebaseAuth.instance.currentUser == null
+  //     //     ? context.goNamed(RoutesName.loginScreen)
+  //     //     : FirebaseAuth.instance.currentUser!.emailVerified == true
+  //     //     ? context.goNamed(RoutesName.homeScreen)
+  //     //     : context.goNamed(RoutesName.loginScreen);
+
+  //     if (FirebaseAuth.instance.currentUser != null) {
+  //       if (FirebaseAuth.instance.currentUser!.emailVerified == true) {
+  //         context.goNamed(RoutesName.homeScreen);
+  //       } else {
+  //         context.goNamed(RoutesName.loginScreen);
+  //       }
+  //     } else {
+  //       context.goNamed(RoutesName.loginScreen);
+  //     }
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
