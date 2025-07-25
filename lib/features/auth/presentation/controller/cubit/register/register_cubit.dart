@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasalny_app/core/functions/check_user_type.dart';
 import 'package:wasalny_app/features/auth/data/repo/register_repo_imple.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_state.dart';
 
@@ -8,9 +10,12 @@ class RegisterCubit extends Cubit<RegisterState> {
   final RegisterRepoImple registerRepoImple;
   RegisterCubit({required this.registerRepoImple})
     : super(InitialRegisterSate());
+  final TextEditingController fullName = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
-  final TextEditingController conformPassword = TextEditingController();
+  final TextEditingController confirmPassword = TextEditingController();
+  final TextEditingController phoneNumber = TextEditingController();
+  String? userType;
   String? confirmPasswordError;
   bool value = false;
   bool isShowPass = false;
@@ -23,7 +28,18 @@ class RegisterCubit extends Cubit<RegisterState> {
         email: email.text,
         password: password.text,
       );
-      verfiedEmail();
+      if (userType == null) {
+        emit(FailureRegisterSate(errormsg: " Please Select User Type "));
+        return;
+      }
+
+      await checkUserType(
+        fullName: fullName.text,
+        email: email.text,
+        phoneNumber: phoneNumber.text,
+        userType: userType!,
+      );
+      await verfiedEmail();
       emit(LoadedRegisterSate());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -58,7 +74,7 @@ class RegisterCubit extends Cubit<RegisterState> {
   }
 
   bool confirmPass() {
-    if (conformPassword.text != password.text) {
+    if (confirmPassword.text != password.text) {
       confirmPasswordError = 'Passwords do not match!'.trim();
       emit(InitialRegisterSate());
       return false;
@@ -80,5 +96,10 @@ class RegisterCubit extends Cubit<RegisterState> {
 
   verfiedEmail() async {
     await FirebaseAuth.instance.currentUser!.sendEmailVerification();
+  }
+
+  void updateUserType(String value) {
+    userType = value;
+    emit(InitialRegisterSate());
   }
 }

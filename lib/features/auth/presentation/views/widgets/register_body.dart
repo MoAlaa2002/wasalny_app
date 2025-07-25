@@ -7,10 +7,12 @@ import 'package:wasalny_app/core/constants/fonts.dart';
 import 'package:wasalny_app/core/functions/snak_bar.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
 import 'package:wasalny_app/core/widgets/custom_button.dart';
+import 'package:wasalny_app/core/widgets/custom_radio.dart';
 import 'package:wasalny_app/core/widgets/custom_text_form_filed.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_cubit.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_state.dart';
 import 'package:wasalny_app/features/auth/presentation/views/widgets/custom_app_bar.dart';
+import 'package:wasalny_app/features/auth/presentation/views/widgets/custom_phone_number_filed.dart';
 import 'package:wasalny_app/features/auth/presentation/views/widgets/custom_terms_and_conditions.dart';
 import 'package:wasalny_app/features/auth/presentation/views/widgets/show_password_icon.dart';
 
@@ -20,6 +22,8 @@ class RegisterBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var read = context.read<RegisterCubit>();
+    FocusNode focusNode = FocusNode();
+
     return Scaffold(
       body: SingleChildScrollView(
         child: BlocConsumer<RegisterCubit, RegisterState>(
@@ -59,6 +63,7 @@ class RegisterBody extends StatelessWidget {
                   SizedBox(
                     width: 327.w,
                     child: CustomTextFormFiled(
+                      controller: read.fullName,
                       label: "Name",
                       icon: Icon(Icons.person),
                       isHidden: false,
@@ -89,8 +94,29 @@ class RegisterBody extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(
-                      right: 260.w,
+                      right: 220.w,
                       top: 20.h,
+                      bottom: 10.h,
+                    ),
+                    child: Text(
+                      "Phone Number",
+                      style: AppFont.text16.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.grey,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 327.w,
+                    child: CustomPhoneNumberFiled(
+                      controller: read.phoneNumber,
+                      read: read.phoneNumber.text,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      right: 260.w,
+                      top: 10.h,
                       bottom: 10.h,
                     ),
                     child: Text(
@@ -128,11 +154,48 @@ class RegisterBody extends StatelessWidget {
                   SizedBox(
                     width: 327.w,
                     child: CustomTextFormFiled(
-                      controller: read.conformPassword,
+                      controller: read.confirmPassword,
 
                       label: "Confirm Password",
                       icon: ShowPasswordIcon(),
                       isHidden: !read.isShowPass,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 80.h),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Driver",
+                          style: AppFont.text16.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+
+                        CustomRadio(
+                          value: 'driver',
+                          groupValue: read.userType ?? '',
+                          onChanged: (value) {
+                            read.updateUserType(value!);
+                          },
+                        ),
+                        SizedBox(width: 50.w),
+                        Text(
+                          "Rider",
+                          style: AppFont.text16.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.grey,
+                          ),
+                        ),
+                        CustomRadio(
+                          value: 'rider',
+                          groupValue: read.userType ?? '',
+                          onChanged: (value) {
+                            read.updateUserType(value!);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
