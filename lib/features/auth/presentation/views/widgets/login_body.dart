@@ -104,6 +104,14 @@ class LoginBody extends StatelessWidget {
                       isHidden: true,
                     ),
                   ),
+                  InkWell(
+                    onTap: () =>
+                        context.goNamed(RoutesName.forgotpasswordScreen),
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 10.h, left: 200.w),
+                      child: Text("Forgot Passwprd?", style: AppFont.text14),
+                    ),
+                  ),
                   SizedBox(height: 60.h),
                   state is LoadingLoginState
                       ? CircularProgressIndicator(color: AppColors.grey)

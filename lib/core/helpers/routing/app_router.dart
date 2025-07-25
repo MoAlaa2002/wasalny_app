@@ -6,6 +6,7 @@ import 'package:wasalny_app/features/auth/data/repo/login_repo_imple.dart';
 import 'package:wasalny_app/features/auth/data/repo/register_repo_imple.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/Login/login_cubit.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/register/register_cubit.dart';
+import 'package:wasalny_app/features/auth/presentation/views/forgot_password_screen.dart';
 import 'package:wasalny_app/features/auth/presentation/views/login_screen.dart';
 import 'package:wasalny_app/features/auth/presentation/views/regiser_screen.dart';
 import 'package:wasalny_app/features/home/presentation/views/home_screen.dart';
@@ -50,6 +51,13 @@ final GoRouter routes = GoRouter(
               LoginCubit(loginRepoImple: getIt<LoginRepoImple>()),
           child: HomeScreen(),
         );
+      },
+    ),
+    GoRoute(
+      name: RoutesName.forgotpasswordScreen,
+      path: '/forgotpasswordScreen',
+      builder: (context, state) {
+        return ForgotPasswordScreen();
       },
     ),
   ],
