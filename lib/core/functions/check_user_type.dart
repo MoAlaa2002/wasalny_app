@@ -5,12 +5,20 @@ checkUserType({
   required String email,
   required String phoneNumber,
   required String userType,
-}) {
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
-  users.add({
-    'name': fullName,
-    'email': email,
-    'phoneNumber': phoneNumber,
-    'userType': userType,
-  });
+  required String userId,
+}) async {
+  print("📝 Saving user to Firestore for UID: $userId");
+
+  try {
+    final users = FirebaseFirestore.instance.collection('users').doc(userId);
+
+    await users.set({
+      'name': fullName,
+      'email': email,
+      'phoneNumber': phoneNumber,
+      'userType': userType,
+    });
+  } catch (e) {
+    print("❌ Error saving user: $e");
+  }
 }

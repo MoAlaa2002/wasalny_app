@@ -22,7 +22,6 @@ class RegisterBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var read = context.read<RegisterCubit>();
-    FocusNode focusNode = FocusNode();
 
     return Scaffold(
       body: SingleChildScrollView(

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,20 +23,23 @@ class RegisterCubit extends Cubit<RegisterState> {
   signInWithEmailAndPass() async {
     try {
       emit(LoadingRegisterSate());
-      await registerRepoImple.signUpWiteEmailAndPassword(
+      if (userType == null) {
+        emit(FailureRegisterSate(errormsg: "Please Select User Type"));
+        return;
+      }
+      final userCredential = await registerRepoImple.signUpWiteEmailAndPassword(
         email: email.text,
         password: password.text,
       );
-      if (userType == null) {
-        emit(FailureRegisterSate(errormsg: " Please Select User Type "));
-        return;
-      }
+      final uid = userCredential.user!.uid;
+      print("✅ Registered UID: $uid");
 
       await checkUserType(
         fullName: fullName.text,
         email: email.text,
         phoneNumber: phoneNumber.text,
         userType: userType!,
+        userId: uid,
       );
       await verfiedEmail();
       emit(LoadedRegisterSate());

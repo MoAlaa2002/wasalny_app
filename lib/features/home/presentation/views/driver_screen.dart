@@ -4,8 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/Login/login_cubit.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class DriverScreen extends StatelessWidget {
+  const DriverScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
           icon: Icon(Icons.login_outlined),
         ),
       ),
+      body: Center(child: Text("driver")),
     );
   }
 }

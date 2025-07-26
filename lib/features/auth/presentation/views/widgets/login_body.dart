@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:wasalny_app/core/constants/colors.dart';
 import 'package:wasalny_app/core/constants/fonts.dart';
 import 'package:wasalny_app/core/functions/check_email_verification.dart';
+import 'package:wasalny_app/core/functions/check_user_func.dart';
 import 'package:wasalny_app/core/functions/snak_bar.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
 import 'package:wasalny_app/core/widgets/custom_button.dart';
@@ -37,9 +38,7 @@ class LoginBody extends StatelessWidget {
 
               if (isVerified) {
                 snackBar(msg: "Welcome Back.", context: context);
-                Future.microtask(() {
-                  context.goNamed(RoutesName.homeScreen);
-                });
+                await checkUserFunc(context);
               } else {
                 snackBar(msg: "Please verify your email.", context: context);
               }

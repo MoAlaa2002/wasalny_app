@@ -11,7 +11,8 @@ import 'package:wasalny_app/features/auth/presentation/controller/cubit/resetpas
 import 'package:wasalny_app/features/auth/presentation/views/forgot_password_screen.dart';
 import 'package:wasalny_app/features/auth/presentation/views/login_screen.dart';
 import 'package:wasalny_app/features/auth/presentation/views/regiser_screen.dart';
-import 'package:wasalny_app/features/home/presentation/views/home_screen.dart';
+import 'package:wasalny_app/features/home/presentation/views/driver_screen.dart';
+import 'package:wasalny_app/features/home/presentation/views/rider_screen.dart';
 import 'package:wasalny_app/features/splash/presentation/views/spalsh_screen.dart';
 
 final GoRouter routes = GoRouter(
@@ -45,13 +46,24 @@ final GoRouter routes = GoRouter(
       },
     ),
     GoRoute(
-      name: RoutesName.homeScreen,
-      path: '/homeScreen',
+      name: RoutesName.riderScreen,
+      path: '/riderScreen',
       builder: (context, state) {
         return BlocProvider(
           create: (context) =>
               LoginCubit(loginRepoImple: getIt<LoginRepoImple>()),
-          child: HomeScreen(),
+          child: RiderScreen(),
+        );
+      },
+    ),
+    GoRoute(
+      name: RoutesName.driverScreen,
+      path: '/driverScreen',
+      builder: (context, state) {
+        return BlocProvider(
+          create: (context) =>
+              LoginCubit(loginRepoImple: getIt<LoginRepoImple>()),
+          child: DriverScreen(),
         );
       },
     ),

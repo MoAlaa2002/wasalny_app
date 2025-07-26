@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:wasalny_app/core/constants/assets.dart';
 import 'package:wasalny_app/core/constants/fonts.dart';
+import 'package:wasalny_app/core/functions/check_user_func.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
 
 class SpalshScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SpalshScreenState extends State<SpalshScreen> {
       user = FirebaseAuth.instance.currentUser;
 
       if (user!.emailVerified) {
-        context.goNamed(RoutesName.homeScreen);
+        await checkUserFunc(context);
       } else {
         context.goNamed(RoutesName.loginScreen);
       }
