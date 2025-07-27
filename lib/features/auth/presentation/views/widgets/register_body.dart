@@ -28,7 +28,10 @@ class RegisterBody extends StatelessWidget {
         child: BlocConsumer<RegisterCubit, RegisterState>(
           listener: (context, state) {
             if (state is LoadedRegisterSate) {
-              snackBar(msg: "Created Account Successfully.", context: context);
+              snackBar(
+                msg: "Created Account Successfully,Please Check Your Email.",
+                context: context,
+              );
               context.goNamed(RoutesName.loginScreen);
             } else if (state is FailureRegisterSate) {
               snackBar(msg: state.errormsg, context: context);

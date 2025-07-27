@@ -6,6 +6,7 @@ import 'package:wasalny_app/core/constants/assets.dart';
 import 'package:wasalny_app/core/constants/fonts.dart';
 import 'package:wasalny_app/core/functions/check_user_func.dart';
 import 'package:wasalny_app/core/helpers/routing/routes_name.dart';
+import 'package:wasalny_app/core/helpers/sharedpreferences/shared_pref_cache.dart';
 
 class SpalshScreen extends StatefulWidget {
   const SpalshScreen({super.key});
@@ -23,10 +24,11 @@ class _SpalshScreenState extends State<SpalshScreen> {
 
   void splas() async {
     await Future.delayed(const Duration(seconds: 2));
+    bool isLoggedIn = SharedPrefCache.getData(key: 'isLoggedIn') ?? false;
 
     User? user = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
+    if (isLoggedIn && user != null) {
       await user.reload();
       user = FirebaseAuth.instance.currentUser;
 

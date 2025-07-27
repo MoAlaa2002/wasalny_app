@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wasalny_app/core/helpers/sharedpreferences/shared_pref_cache.dart';
 import 'package:wasalny_app/features/auth/data/repo/login_repo_imple.dart';
 import 'package:wasalny_app/features/auth/presentation/controller/cubit/Login/login_state.dart';
 
@@ -19,6 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
         password: password.text,
       );
       emit(LoadedLoginState());
+      await SharedPrefCache.setData(key: 'isLoggedIn', value: true);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         emit(FailureLoginState(errormsg: 'No user found for that email.'));
@@ -43,6 +45,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   logout() async {
+    await SharedPrefCache.setData(key: 'isLoggedIn', value: false);
     await FirebaseAuth.instance.signOut();
   }
 }
